@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,7 +7,7 @@ import { images } from "@/assets";
 import { Button } from "@/components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
-import { blurhash, hp, wp } from "@/utils";
+import { hp, wp } from "@/utils";
 
 type GetStartedScreenProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -25,6 +25,7 @@ const GetStarted: React.FC<GetStartedScreenProps> = ({ navigation }) => {
       else navigation.navigate("Onboarding");
     });
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.imagesContainer}>
@@ -34,9 +35,7 @@ const GetStarted: React.FC<GetStartedScreenProps> = ({ navigation }) => {
           <View style={styles.largeImg}>
             <Image
               source={images.largeImg}
-              placeholder={blurhash}
               style={StyleSheet.absoluteFillObject}
-              transition={500}
               contentFit="cover"
             />
           </View>
@@ -46,18 +45,14 @@ const GetStarted: React.FC<GetStartedScreenProps> = ({ navigation }) => {
           <View style={styles.ovalImg}>
             <Image
               source={images.ovalImg}
-              placeholder={blurhash}
               style={StyleSheet.absoluteFillObject}
-              transition={500}
               contentFit="cover"
             />
           </View>
           <View style={styles.circleImg}>
             <Image
               source={images.circleImg}
-              placeholder={blurhash}
               style={StyleSheet.absoluteFillObject}
-              transition={500}
               contentFit="cover"
             />
           </View>

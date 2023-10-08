@@ -1,98 +1,113 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { blurhash, hp, wp } from "@/utils";
-import { images } from "@/assets";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  StatusBar,
+  Text,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { ONBOARDING_DATA, blurhash, hp, w, wp } from "@/utils";
 import { Image } from "expo-image";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedRef,
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from "react-native-reanimated";
+import { Description, Paginator, SlideImg } from "@/components";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AuthStackParamList } from "@/navigation/type";
 
-const DATA = [
-  {
-    id: "001",
-    image: images.slide1,
-    title: "Seanmless Shopping Experience",
-    subtitle:
-      "Experience hassle-free online shopping. Explore our products, add to your cart, and enjoy a smooth checkout. Your convenience is our priority. Shop now!",
-  },
-  {
-    id: "002",
-    image: images.slide2,
-    title: "Whislist: Where Fashion Dreams Begin",
-    subtitle:
-      "Wishlist is your fashion haven. Explore the latest trends, create your dream wardrobe, and turn your fashion fantasies into reality. Start building your style journey with us today!",
-  },
-  {
-    id: "003",
-    image: images.slide3,
-    title: "Swift and Reliable Delivery",
-    subtitle:
-      "Swift and reliable deliveries—your satisfaction, our guarantee. Shop confidently with us!",
-  },
-];
+type OnboardingScreenProps = NativeStackScreenProps<
+  AuthStackParamList,
+  "Onboarding"
+>;
 
-const wordsToColor = ["Seamless", "Fashion", "Dreams", "Swift", "Reliable"];
+const Onboarding: React.FC<OnboardingScreenProps> = ({ navigation }) => {
+  const scrollX = useSharedValue(0);
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset: { x } }) => {
+      scrollX.value = x;
+    },
+  });
+  const skip = () => {
+    AsyncStorage.setItem("onboarded", "true");
+    navigation.navigate("Signup");
+  };
+  const forward = () => {
+    const slides = ONBOARDING_DATA.length;
+    const activeSlide = interpolate(
+      scrollX.value,
+      [0, w, w * 1],
+      [w, w * 2, w * slides - 3],
+      Extrapolate.CLAMP
+    );
 
-const Description: React.FC<{ title: string; subtitle: string }> = ({
-  title,
-  subtitle,
-}) => {
-  const colorWordsInText = (text: string) => {
-    const words = text.split(" ");
-    return words.map((word, index) => {
-      if (wordsToColor.includes(word)) {
-        return (
-          <Text key={index} style={{ color: "brown" }}>
-            {word}{" "}
-          </Text>
-        );
+    if (scrollRef.current) {
+      const nextSlide = activeIndex + 1;
+      if (nextSlide < slides) {
+        scrollRef.current.scrollTo({ x: activeSlide });
+        setActiveIndex(nextSlide);
       } else {
-        return <Text key={index}>{word} </Text>;
+        skip();
+        setActiveIndex(0);
       }
-    });
+    }
+    console.log(activeIndex, slides);
   };
 
-  return (
-    <View style={styles.descriptionContainer}>
-      <Text style={styles.title}>{colorWordsInText(title)}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
-    </View>
-  );
-};
+  useEffect(() => {
+    StatusBar.setBackgroundColor("#F8F8F8");
+  }, []);
 
-const Onboarding = () => {
   return (
     <View style={styles.container}>
-      <ScrollView
+      <TouchableOpacity style={styles.skipBtn} onPress={skip}>
+        <Text style={styles.skipText}>Skip</Text>
+      </TouchableOpacity>
+      <Animated.ScrollView
+        ref={scrollRef}
         horizontal
-        snapToInterval={wp(100)}
+        snapToInterval={w}
+        onScroll={scrollHandler}
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
       >
-        {DATA.map((slide, i) => {
+        {ONBOARDING_DATA.map((slide, i) => {
           return (
-            <View key={slide.id} style={styles.slideImgContainer}>
-              <Image
-                source={slide.image}
-                placeholder={blurhash}
-                style={styles.slideImg}
-                transition={500}
-                contentFit="contain"
-              />
-            </View>
+            <SlideImg
+              image={slide.image}
+              scrollX={scrollX}
+              i={i}
+              key={slide.id}
+            />
           );
         })}
-      </ScrollView>
+      </Animated.ScrollView>
       <View pointerEvents="none" style={styles.slideFooter}>
         <View style={styles.textContainer}>
-          {DATA.map((slide, i) => {
+          {ONBOARDING_DATA.map((slide, i) => {
             return (
               <Description
                 title={slide.title}
                 subtitle={slide.subtitle}
                 key={slide.id}
+                {...{ scrollX, i }}
               />
             );
           })}
         </View>
-        <View style={styles.paginationContainer}></View>
+      </View>
+      <View style={styles.paginationContainer}>
+        <Paginator scrollX={scrollX} dotLength={ONBOARDING_DATA.length} />
+        <TouchableOpacity onPress={forward}>
+          <Ionicons name={"arrow-forward"} size={24} color={"#704F38"} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -105,17 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F8F8",
   },
-  slideImgContainer: {
-    width: wp(100),
-    height: hp(100),
-    paddingBottom: hp(20),
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  slideImg: {
-    width: wp(100) * 1.4,
-    aspectRatio: 1,
-  },
+
   slideFooter: {
     width: wp(100),
     height: hp(45),
@@ -133,30 +138,20 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     width: wp(100),
-    height: "30%",
-    borderWidth: 1,
-  },
-  descriptionContainer: {
-    position: "absolute",
-    alignSelf: "center",
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
-    gap: 12,
+    padding: 20,
   },
-  title: {
-    fontSize: 22,
-    textAlign: "center",
-    color: "#282932",
-    fontFamily: "Montserrat-Bold",
-    lineHeight: 28,
+  skipBtn: {
+    position: "absolute",
+    right: 20,
+    top: StatusBar.currentHeight,
+    zIndex: 10,
   },
-  subtitle: {
+  skipText: {
     fontSize: 14,
-    color: "#797979",
-    textAlign: "center",
     fontFamily: "Montserrat-Regular",
+    color: "#704F38",
   },
 });
