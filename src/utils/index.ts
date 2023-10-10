@@ -1,6 +1,5 @@
 import { images } from "@/assets";
-import { Dimensions, ImageSourcePropType } from "react-native";
-import { Blurhash } from "react-native-blurhash";
+import { Dimensions } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -35,3 +34,11 @@ export const ONBOARDING_DATA = [
       "Swift and reliable deliveries—your satisfaction, our guarantee. Shop confidently with us!",
   },
 ];
+
+export const colors = {
+  primary: "#704F38",
+  black: "#1F2029",
+  grey: "#797979",
+  lightgrey: "#EDEDED",
+  white: "#fff",
+};

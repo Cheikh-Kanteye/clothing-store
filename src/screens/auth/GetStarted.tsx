@@ -7,7 +7,7 @@ import { images } from "@/assets";
 import { Button } from "@/components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
-import { hp, wp } from "@/utils";
+import { colors, hp, wp } from "@/utils";
 
 type GetStartedScreenProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -91,7 +91,7 @@ export default GetStarted;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     paddingTop: StatusBar.currentHeight,
   },
   imagesContainer: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     height: 250,
     borderRadius: 125,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#797979",
+    borderColor: colors.grey,
     position: "absolute",
     top: -80,
     left: -60,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#797979",
+    borderColor: colors.grey,
     position: "absolute",
     bottom: 50,
     right: -100,
@@ -160,21 +160,21 @@ const styles = StyleSheet.create({
   slogan: {
     fontSize: 22,
     textAlign: "center",
-    color: "#282932",
+    color: colors.grey,
     fontFamily: "Montserrat-Bold",
     lineHeight: 28,
   },
   highlighted: {
-    color: "#704F38",
+    color: colors.primary,
   },
   descriptif: {
     fontSize: 14,
-    color: "#797979",
+    color: colors.grey,
     textAlign: "center",
     fontFamily: "Montserrat-Regular",
   },
   link: {
-    color: "#704F38",
+    color: colors.primary,
     textDecorationLine: "underline",
     fontFamily: "Montserrat-SemiBold",
   },

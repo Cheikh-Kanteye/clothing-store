@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import { colors } from "@/utils";
 
 interface ButtonProps extends TouchableOpacityProps {
   label: string;
@@ -18,10 +19,10 @@ const Button = (props: ButtonProps) => {
   return (
     <TouchableOpacity
       {...props}
-      style={[styles.btn, { backgroundColor: color ? color : "#704F38" }]}
+      style={[styles.btn, { backgroundColor: color ? color : colors.primary }]}
     >
       {/*TODO Update color, make it Dynamic */}
-      <Text style={{ fontSize: 18, fontWeight: "500", color: "#fff" }}>
+      <Text style={{ fontSize: 18, fontWeight: "500", color: colors.white }}>
         {label}
       </Text>
     </TouchableOpacity>

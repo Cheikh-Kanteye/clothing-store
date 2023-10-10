@@ -29,6 +29,7 @@ const SlideImg: React.FC<SlideImgProps> = ({ image, scrollX, i }) => {
       <Image
         source={image}
         placeholder={blurhash}
+        placeholderContentFit="contain"
         style={styles.slideImg}
         transition={500}
         contentFit="contain"

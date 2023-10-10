@@ -1,4 +1,4 @@
-import { w } from "@/utils";
+import { colors, w } from "@/utils";
 import Animated, {
   useAnimatedStyle,
   Extrapolate,
@@ -25,7 +25,7 @@ const Description: React.FC<DescriptionProps> = ({
     return words.map((word, index) => {
       if (wordsToColor.includes(word)) {
         return (
-          <Text key={index} style={{ color: "brown" }}>
+          <Text key={index} style={{ color: colors.primary }}>
             {word}{" "}
           </Text>
         );
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     textAlign: "center",
-    color: "#282932",
+    color: colors.black,
     fontFamily: "Montserrat-Bold",
     lineHeight: 28,
   },
   subtitle: {
     fontSize: 14,
-    color: "#797979",
+    color: colors.grey,
     textAlign: "center",
     fontFamily: "Montserrat-Regular",
   },

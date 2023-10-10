@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import { fonts } from "@/assets";
 import { useCallback } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthProvider } from "@/context/AuthContext";
 
 Navbar.setBackgroundColorAsync("#fff");
 SplashScreen.preventAutoHideAsync();
@@ -27,9 +28,11 @@ export default function App() {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <AuthStackNavigator />
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <AuthStackNavigator />
+        </NavigationContainer>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

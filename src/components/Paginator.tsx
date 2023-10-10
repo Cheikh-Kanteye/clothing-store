@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import Animated, {
   Extrapolate,
@@ -7,7 +7,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { w } from "@/utils";
+import { colors, w } from "@/utils";
 
 type scrollXType = Animated.SharedValue<number>;
 
@@ -37,7 +37,7 @@ const Dot: React.FC<{ scrollX: scrollXType; i: number }> = ({ scrollX, i }) => {
       backgroundColor: interpolateColor(
         scrollX.value,
         [(i - 1) * w, i * w, (i + 1) * w],
-        ["#E2DCD7", "#704F38", "#E2DCD7"]
+        [colors.lightgrey, colors.primary, colors.lightgrey]
       ),
     };
   });

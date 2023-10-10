@@ -5,6 +5,9 @@ export const images = {
   slide1: require("./images/slide1.png"),
   slide2: require("./images/slide2.png"),
   slide3: require("./images/slide3.png"),
+  apple: require("./images/apple.png"),
+  facebook: require("./images/facebook.png"),
+  google: require("./images/google.png"),
 };
 
 export const fonts = {

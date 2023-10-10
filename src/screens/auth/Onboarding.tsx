@@ -6,8 +6,7 @@ import {
   Text,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ONBOARDING_DATA, blurhash, hp, w, wp } from "@/utils";
-import { Image } from "expo-image";
+import { ONBOARDING_DATA, colors, hp, w, wp } from "@/utils";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -38,6 +37,7 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({ navigation }) => {
   const skip = () => {
     AsyncStorage.setItem("onboarded", "true");
     navigation.navigate("Signup");
+    setActiveIndex(0);
   };
   const forward = () => {
     const slides = ONBOARDING_DATA.length;
@@ -55,14 +55,12 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({ navigation }) => {
         setActiveIndex(nextSlide);
       } else {
         skip();
-        setActiveIndex(0);
       }
     }
-    console.log(activeIndex, slides);
   };
 
   useEffect(() => {
-    StatusBar.setBackgroundColor("#F8F8F8");
+    StatusBar.setBackgroundColor(colors.lightgrey);
   }, []);
 
   return (
@@ -106,7 +104,7 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({ navigation }) => {
       <View style={styles.paginationContainer}>
         <Paginator scrollX={scrollX} dotLength={ONBOARDING_DATA.length} />
         <TouchableOpacity onPress={forward}>
-          <Ionicons name={"arrow-forward"} size={24} color={"#704F38"} />
+          <Ionicons name={"arrow-forward"} size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -118,7 +116,7 @@ export default Onboarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: colors.lightgrey,
   },
 
   slideFooter: {
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
     height: hp(45),
     position: "absolute",
     bottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderTopRightRadius: hp(45) * 0.1,
     borderTopLeftRadius: hp(45) * 0.1,
     overflow: "hidden",
@@ -152,6 +150,6 @@ const styles = StyleSheet.create({
   skipText: {
     fontSize: 14,
     fontFamily: "Montserrat-Regular",
-    color: "#704F38",
+    color: colors.primary,
   },
 });
