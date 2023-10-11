@@ -1,43 +1,41 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, SocialLink } from "@/components";
 import { Feather } from "@expo/vector-icons";
-import { User, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebaseConfig";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
 import { images } from "@/assets";
 import { colors, hp } from "@/utils";
-import { useAuth } from "@/context/AuthContext";
 
 type SignupProps = NativeStackScreenProps<AuthStackParamList, "Signup">;
 
 const Signup: React.FC<SignupProps> = ({ navigation }) => {
-  const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
-  const [error, setError] = useState("");
   const passworrdMatched = confirmPassword === password;
-
   const goSignin = () => {
     navigation.navigate("Signin");
   };
-  const signUp = () => {
-    const { dispatch } = useAuth();
-
-    if (email != "" && password != "" && passworrdMatched) {
-      createUserWithEmailAndPassword(auth, email, password).then(
-        (credentials) => {
-          const userCredentials = credentials.user;
-          if (userCredentials) {
-            dispatch({ type: "LOGIN", payload: userCredentials });
-          }
-        }
-      );
-    } else {
-      setError("Password or email are incorrect!");
+  const handleLogin = async () => {
+    try {
+      if (email !== "" && passworrdMatched) {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        Alert.alert("All fields are require");
+      }
+    } catch (error) {
+      Alert.alert(error as string);
     }
   };
 
@@ -50,9 +48,6 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             Fit your information below or register with your social account.
           </Text>
         </View>
-        {error && (
-          <Text style={[styles.description, { color: "red" }]}>{error}</Text>
-        )}
       </View>
       <View style={styles.contentContainer}>
         <View style={{ width: "100%", gap: 5 }}>
@@ -62,6 +57,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             placeholder="Enter your email address..."
             value={email}
             onChangeText={setEmail}
+            autoCapitalize="none"
           />
         </View>
         <View style={{ width: "100%", gap: 6 }}>
@@ -71,6 +67,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             placeholder="Create password..."
             value={password}
             onChangeText={setPassword}
+            // autoCapitalize="none"
           />
         </View>
         <View style={{ width: "100%", gap: 6 }}>
@@ -80,6 +77,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             placeholder="Confirm password..."
             value={confirmPassword}
             onChangeText={setConfirmPassword}
+            autoCapitalize="none"
           />
         </View>
         <Pressable
@@ -105,7 +103,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-      <Button label="Sign Up" onPress={signUp} />
+      <Button label="Sign Up" onPress={handleLogin} />
       <View style={styles.or}>
         <View style={styles.line} />
         <Text style={styles.description}>Or sign up with</Text>
