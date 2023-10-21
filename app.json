@@ -26,6 +26,17 @@
     },
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "plugins": [
+      {
+        "photosPermission": "Kleva need your permissions to access in your photos"
+      },
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ]
   }
 }

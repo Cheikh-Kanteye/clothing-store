@@ -1,6 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { GetStarted, Onboarding, Signin, Signup } from "@/screens";
+import {
+  CompleteProfile,
+  GetStarted,
+  Onboarding,
+  Signin,
+  Signup,
+} from "@/screens";
 import { AuthStackParamList } from "./type";
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -12,6 +18,7 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name="Onboarding" component={Onboarding} />
       <AuthStack.Screen name="Signin" component={Signin} />
       <AuthStack.Screen name="Signup" component={Signup} />
+      <AuthStack.Screen name="CompleteProfile" component={CompleteProfile} />
     </AuthStack.Navigator>
   );
 };

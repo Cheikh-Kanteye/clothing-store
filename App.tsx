@@ -6,6 +6,8 @@ import { useFonts } from "expo-font";
 import { fonts } from "@/assets";
 import { useCallback } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { colors } from "@/utils";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 Navbar.setBackgroundColorAsync("#fff");
 SplashScreen.preventAutoHideAsync();
@@ -24,8 +26,10 @@ export default function App() {
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
-      <StatusBar style="dark" />
-      <AppNavigation />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar style="dark" backgroundColor={colors.white} />
+        <AppNavigation />
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }

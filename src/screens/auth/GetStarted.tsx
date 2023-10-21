@@ -36,7 +36,7 @@ const GetStarted: React.FC<GetStartedScreenProps> = ({ navigation }) => {
             <Image
               source={images.largeImg}
               style={StyleSheet.absoluteFillObject}
-              contentFit="cover"
+              transition={200}
             />
           </View>
           <Text style={styles.character}>✱</Text>
@@ -46,14 +46,14 @@ const GetStarted: React.FC<GetStartedScreenProps> = ({ navigation }) => {
             <Image
               source={images.ovalImg}
               style={StyleSheet.absoluteFillObject}
-              contentFit="cover"
+              transition={200}
             />
           </View>
           <View style={styles.circleImg}>
             <Image
               source={images.circleImg}
               style={StyleSheet.absoluteFillObject}
-              contentFit="cover"
+              transition={200}
             />
           </View>
         </View>

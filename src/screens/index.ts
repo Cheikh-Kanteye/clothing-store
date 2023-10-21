@@ -2,6 +2,7 @@ export { default as GetStarted } from "./auth/GetStarted";
 export { default as Signin } from "./auth/Signin";
 export { default as Signup } from "./auth/Signup";
 export { default as Onboarding } from "./auth/Onboarding";
+export { default as CompleteProfile } from "./auth/CompleteProfie";
 export { default as Home } from "./private/tabs/Home";
 export { default as ChatList } from "./private/tabs/ChatList";
 export { default as Orders } from "./private/tabs/Orders";

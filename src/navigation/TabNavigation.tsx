@@ -7,7 +7,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigation = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Orders" component={Orders} />
       <Tab.Screen name="WishList" component={WishList} />

@@ -9,8 +9,6 @@ import {
 import React, { useState } from "react";
 import { Button, SocialLink } from "@/components";
 import { Feather } from "@expo/vector-icons";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/config/firebaseConfig";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
 import { images } from "@/assets";
@@ -27,10 +25,10 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
   const goSignin = () => {
     navigation.navigate("Signin");
   };
-  const handleLogin = async () => {
+  const handleLogin = () => {
     try {
       if (email !== "" && passworrdMatched) {
-        await createUserWithEmailAndPassword(auth, email, password);
+        navigation.navigate("CompleteProfile", { email, password });
       } else {
         Alert.alert("All fields are require");
       }
@@ -66,8 +64,9 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             style={styles.input}
             placeholder="Create password..."
             value={password}
+            secureTextEntry
             onChangeText={setPassword}
-            // autoCapitalize="none"
+            autoCapitalize="none"
           />
         </View>
         <View style={{ width: "100%", gap: 6 }}>
@@ -76,6 +75,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
             style={styles.input}
             placeholder="Confirm password..."
             value={confirmPassword}
+            secureTextEntry
             onChangeText={setConfirmPassword}
             autoCapitalize="none"
           />
@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontFamily: "Montserrat-SemiBold",
+    color: colors.grey,
   },
   agreementChecker: {
     flexDirection: "row",

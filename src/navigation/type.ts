@@ -3,6 +3,7 @@ export type AuthStackParamList = {
   GetStarted: undefined;
   Signin: undefined;
   Signup: undefined;
+  CompleteProfile: { email: string; password: string };
 };
 
 export type TabParamList = {

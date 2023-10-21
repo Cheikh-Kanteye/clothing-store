@@ -8,6 +8,9 @@ export const images = {
   apple: require("./images/apple.png"),
   facebook: require("./images/facebook.png"),
   google: require("./images/google.png"),
+  imgPick: require("./images/imgPick.png"),
+  edit: require("./images/edit.png"),
+  blurhash: require("./images/blurhash.png"),
 };
 
 export const fonts = {
