@@ -1,7 +1,8 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
+  SharedValue,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -9,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { colors, w } from "@/utils";
 
-type scrollXType = Animated.SharedValue<number>;
+type scrollXType = SharedValue<number>;
 
 interface PaginatorProps {
   dotLength: number;
@@ -28,8 +29,8 @@ const Dot: React.FC<{ scrollX: scrollXType; i: number }> = ({ scrollX, i }) => {
             interpolate(
               scrollX.value,
               [(i - 1) * w, i * w, (i + 1) * w],
-              [1, 1.5, 1],
-              Extrapolate.CLAMP
+              [0.9, 1.3, 0.9],
+              Extrapolation.CLAMP
             )
           ),
         },

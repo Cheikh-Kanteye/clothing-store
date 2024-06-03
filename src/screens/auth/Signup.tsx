@@ -21,7 +21,9 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
+  const [error, setError] = useState<string>();
   const passworrdMatched = confirmPassword === password;
+
   const goSignin = () => {
     navigation.navigate("Signin");
   };
@@ -30,10 +32,10 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
       if (email !== "" && passworrdMatched) {
         navigation.navigate("CompleteProfile", { email, password });
       } else {
-        Alert.alert("All fields are require");
+        setError("All fields are require !");
       }
     } catch (error) {
-      Alert.alert(error as string);
+      setError("Something went wrong !");
     }
   };
 
@@ -48,6 +50,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.contentContainer}>
+        {error && <Text style={styles.error}>{error}</Text>}
         <View style={{ width: "100%", gap: 5 }}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -211,5 +214,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 16,
+  },
+  error: {
+    fontSize: 12,
+    color: "tomato",
   },
 });

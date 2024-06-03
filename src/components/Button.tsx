@@ -19,7 +19,10 @@ const Button = (props: ButtonProps) => {
   return (
     <TouchableOpacity
       {...props}
-      style={[styles.btn, { backgroundColor: color ? color : colors.primary }]}
+      style={[
+        props.style ? props.style : styles.btn,
+        { backgroundColor: color ? color : colors.primary },
+      ]}
     >
       {/*TODO Update color, make it Dynamic */}
       <Text style={{ fontSize: 18, fontWeight: "500", color: colors.white }}>

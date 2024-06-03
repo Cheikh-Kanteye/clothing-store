@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { ONBOARDING_DATA, colors, hp, w, wp } from "@/utils";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   interpolate,
   useAnimatedRef,
   useAnimatedScrollHandler,
@@ -45,7 +45,7 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({ navigation }) => {
       scrollX.value,
       [0, w, w * 1],
       [w, w * 2, w * slides - 3],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
 
     if (scrollRef.current) {

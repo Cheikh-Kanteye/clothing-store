@@ -1,26 +1,24 @@
 import {
-  Alert,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
   Image,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
 import { auth, db } from "@/config/firebaseConfig";
 import { Ionicons } from "@expo/vector-icons";
 import { BackButton, Button, ModalView } from "@/components";
-import { colors, hp, wp } from "@/utils";
+import { colors, hp } from "@/utils";
 import { images } from "@/assets";
 import { CountryPicker } from "react-native-country-codes-picker";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 type CompleteProfileScreenProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -31,6 +29,8 @@ const CompleteProfie: React.FC<CompleteProfileScreenProps> = ({ route }) => {
   const { email, password } = route.params;
   const [image, setImage] = useState<string | null>(null);
   const [name, setName] = useState("");
+  const [success, setSuccess] = useState<string>();
+  const [error, setError] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCode] = useState("+221");
   const [selectGender, setSelectGender] = useState(false);
@@ -50,17 +50,16 @@ const CompleteProfie: React.FC<CompleteProfileScreenProps> = ({ route }) => {
       await setDoc(doc(db, "users", uid), {
         photoUrl: image,
         displayName: name,
-        phoneNumber: countryCode + phoneNumber,
+        phoneNumber: `${countryCode}${phoneNumber}`,
         gender,
       });
-      Alert.alert("Inscription réussie !");
+      setSuccess("Inscription réussie !");
     } catch (error) {
-      console.error("Erreur lors de l'inscription : ", error);
+      setError("Something wend wrong !");
     }
   };
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -72,10 +71,24 @@ const CompleteProfie: React.FC<CompleteProfileScreenProps> = ({ route }) => {
       setImage(result.assets[0].uri);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      const errorTimedOut = setTimeout(() => setError(undefined), 2000);
+      return () => clearTimeout(errorTimedOut);
+    }
+    if (success) {
+      const successTimedOut = setTimeout(() => setSuccess(undefined), 2000);
+      return () => clearTimeout(successTimedOut);
+    }
+  }, [error, success]);
+
   return (
     <SafeAreaView style={styles.container}>
       <BackButton />
       <View style={styles.contentContainer}>
+        {error && <Text style={styles.error}>{error}</Text>}
+        {success && <Text style={styles.success}>{success}</Text>}
         <View style={{ gap: 6 }}>
           <Text style={styles.title}>Complete Your Profile</Text>
           <Text style={styles.description}>
@@ -259,5 +272,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 2,
+  },
+  error: {
+    fontSize: 12,
+    color: "tomato",
+  },
+  success: {
+    fontSize: 12,
+    color: "lightgreen",
   },
 });

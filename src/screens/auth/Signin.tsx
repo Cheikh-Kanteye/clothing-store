@@ -1,18 +1,7 @@
-import {
-  Alert,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { Button, SocialLink } from "@/components";
-import { Feather } from "@expo/vector-icons";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebaseConfig";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "@/navigation/type";
@@ -25,6 +14,7 @@ const Signin: React.FC<SigninProps> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agree, setAgree] = useState(false);
+  const [error, setError] = useState<string>();
   const goSignup = () => {
     navigation.navigate("Signup");
   };
@@ -33,10 +23,10 @@ const Signin: React.FC<SigninProps> = ({ navigation }) => {
       if (email !== "" && password != "") {
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        Alert.alert("All fields are require");
+        setError("All fields are require");
       }
     } catch (error) {
-      Alert.alert(error as string);
+      setError("email or password incorrect");
     }
   };
 
@@ -51,6 +41,7 @@ const Signin: React.FC<SigninProps> = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.contentContainer}>
+        {error && <Text style={styles.error}>{error}</Text>}
         <View style={{ width: "100%", gap: 5 }}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -191,5 +182,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 16,
+  },
+  error: {
+    fontSize: 12,
+    color: "tomato",
   },
 });

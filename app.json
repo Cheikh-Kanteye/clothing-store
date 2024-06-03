@@ -1,5 +1,9 @@
 {
   "expo": {
+    "androidStatusBar": {
+      "backgroundColor": "#fff",
+      "translucent": false
+    },
     "name": "clothing-store",
     "slug": "clothing-store",
     "version": "1.0.0",
@@ -28,9 +32,6 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      {
-        "photosPermission": "Kleva need your permissions to access in your photos"
-      },
       [
         "expo-location",
         {

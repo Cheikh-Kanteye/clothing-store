@@ -1,4 +1,5 @@
 import { images } from "@/assets";
+import { Timer } from "@/navigation/type";
 import { Dimensions } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -37,8 +38,10 @@ export const ONBOARDING_DATA = [
 
 export const colors = {
   primary: "#704F38",
+  primaryAlt: "#f0e4da",
   black: "#1F2029",
   grey: "#797979",
   lightgrey: "#E6E6E6",
   white: "#fff",
+  accent: "#fc5b5b",
 };

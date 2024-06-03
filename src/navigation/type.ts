@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export type AuthStackParamList = {
   Onboarding: undefined;
   GetStarted: undefined;
@@ -36,4 +38,24 @@ export type PrivateStackParamList = {
   HelpCenter: undefined;
   PrivacyPolicy: undefined;
   InviteFriends: undefined;
+};
+
+export type categorie = {
+  id: number;
+  icon: ImageSourcePropType;
+  label: string;
+};
+
+export type slide = {
+  id: number;
+  label: string;
+  message: string;
+  img: ImageSourcePropType;
+};
+
+export type Timer = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 };
